@@ -1,7 +1,7 @@
 Gem::Specification.new do |spec|
   spec.platform    = Gem::Platform::RUBY
   spec.name        = 'spree_onpay'
-  spec.version     = '0.2'
+  spec.version     = '0.2.1'
   spec.summary     = 'Payment method for onpay.ru'
   spec.required_ruby_version = '>= 1.8.7'
 
