@@ -1,0 +1,11 @@
+---
+en:
+  onpay:
+    details_of_payment: 'Payment Order %{order_number}'
+    pay: Pay
+  priv_code: Password for API
+  onpay_login: Username in Onpay
+  price_final: Commission payment system
+  convert_currency: Convert currency
+  pay_type: Payment type
+  currency: Currency

@@ -1,0 +1,11 @@
+---
+ru:
+  onpay:
+    details_of_payment: 'Оплата заказа %{order_number}'
+    pay: Оплата
+  priv_code: Пароль для API
+  onpay_login: Логин в системе Onpay
+  price_final: Комиссия платежной системы 
+  convert_currency: Конвертировать валюту
+  pay_type: Тип платежа
+  currency: Валюта
