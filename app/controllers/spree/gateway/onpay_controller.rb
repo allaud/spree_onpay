@@ -1,9 +1,9 @@
 #encoding: utf-8
-class Gateway::OnpayController < Spree::BaseController
+class Spree::Gateway::OnpayController < Spree::BaseController
   skip_before_filter :verify_authenticity_token, :only => [:api]
   before_filter :load_order,                     :only => [:api]
   ssl_required :show
-  
+
   def show
     @order =  Order.find(params[:order_id])
     @gateway = @order.available_payment_methods.find{|x| x.id == params[:gateway_id].to_i }
@@ -43,8 +43,8 @@ class Gateway::OnpayController < Spree::BaseController
 				if @gateway.options[:test_mode] then
 					tst_valid_check(params["pay_for"],params["order_amount"],params["order_currency"]) ? out_code_comment(0,"All,OK") :	out_code_comment(3,"Error on parameters check")
 				else
-					valid_check(params["pay_for"],params["order_amount"],params["order_currency"]) ? out_code_comment(0,"All,OK") :	out_code_comment(3,"Error on parameters check")					
-				end 
+					valid_check(params["pay_for"],params["order_amount"],params["order_currency"]) ? out_code_comment(0,"All,OK") :	out_code_comment(3,"Error on parameters check")
+				end
 				@out["md5"] = create_check_md5(params["type"],params["pay_for"],params["order_amount"],
 																		 params["order_currency"],@out["code"],@gateway.options[:priv_code])
 				render :action => "check"
@@ -57,7 +57,7 @@ class Gateway::OnpayController < Spree::BaseController
 		end
 
 
-		if params["type"] == "pay" then 
+		if params["type"] == "pay" then
 			if params["md5"] == Digest::MD5.hexdigest([params["type"],
 																											params["pay_for"],
 																											params["onpay_id"],
@@ -68,28 +68,28 @@ class Gateway::OnpayController < Spree::BaseController
 				if @gateway.options[:test_mode] then
 					if tst_valid_check(params["pay_for"],params["order_amount"],params["order_currency"]) then
 						create_payment(params["order_amount"].to_f)
-						out_code_comment(0,"OK")	
+						out_code_comment(0,"OK")
 					else
 						out_code_comment(3,"Error on parameters check")
 					end
 				else
 					if valid_check(params["pay_for"],params["order_amount"],params["order_currency"]) then
 						create_payment(params["order_amount"].to_f)
-						out_code_comment(0,"OK")	
+						out_code_comment(0,"OK")
 					else
 						out_code_comment(3,"Error on parameters check")
 					end
 				end
-				
-				
+
+
 				@out["md5"] = create_pay_md5(params["type"],params["pay_for"],params["onpay_id"],params["pay_for"],params["order_amount"],
-																		params["order_currency"],@out["code"],@gateway.options[:priv_code])																	 
+																		params["order_currency"],@out["code"],@gateway.options[:priv_code])
 				render :action => "pay"
 			else
-				out_code_comment(7,"MD5 signature wrong")			
+				out_code_comment(7,"MD5 signature wrong")
 				@out["onpay_id"] = params["onpay_id"]
 				@out["md5"] = create_pay_md5(params["type"],params["pay_for"],params["onpay_id"],params["pay_for"],params["order_amount"],
-																	 params["order_currency"],@out["code"],@gateway.options[:priv_code])				 
+																	 params["order_currency"],@out["code"],@gateway.options[:priv_code])
 				render :action => "pay"
 			end
 		end
@@ -102,7 +102,7 @@ class Gateway::OnpayController < Spree::BaseController
 
 	def create_payment(order_amount)
  	     		payment = @order.payments.build(:payment_method => @order.payment_method)
-					payment.payment_method = PaymentMethod.find_by_type('Gateway::Onpay')
+					payment.payment_method = Spree::PaymentMethod.find_by_type('Gateway::Onpay')
 	      	payment.state = "completed"
 	      	payment.amount = order_amount
 	      	payment.save
@@ -129,7 +129,7 @@ class Gateway::OnpayController < Spree::BaseController
 		return false if order_currency != @gateway.options[:currency]
 		return true
 	end
-	
+
 	def tst_valid_check(pay_for,order_amount,order_currency)
 		return false if @order.state == "complete"
 		return false until order_amount.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true
@@ -144,8 +144,8 @@ class Gateway::OnpayController < Spree::BaseController
 	end
 
   def load_order
-    @order = Order.find_by_id(params["pay_for"])
-    @gateway = Gateway::Onpay.current
+    @order = Spree::Order.find_by_id(params["pay_for"])
+    @gateway = Spree::Gateway::Onpay.current
   end
 
 end
