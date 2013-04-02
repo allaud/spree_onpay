@@ -1,11 +1,13 @@
 #encoding: utf-8
 class Spree::Gateway::OnpayController < Spree::BaseController
+	include Spree::Core::ControllerHelpers::Order
+
   skip_before_filter :verify_authenticity_token, :only => [:api]
   before_filter :load_order,                     :only => [:api]
   ssl_required :show
 
   def show
-    @order =  Order.find(params[:order_id])
+    @order =  Spree::Order.find(params[:order_id])
     @gateway = @order.available_payment_methods.find{|x| x.id == params[:gateway_id].to_i }
 
     if @order.blank? || @gateway.blank?

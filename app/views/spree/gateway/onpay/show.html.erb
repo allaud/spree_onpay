@@ -12,7 +12,7 @@
 <%= hidden_field_tag(:"user_email", @user_email)%>
 <%= hidden_field_tag(:"md5", @md5) unless @md5.nil? %>
 <h1 class="font-41 black"><%= "#{t('order')} #{@order.number}" %></h1>
-<%= render :partial => 'shared/order_details', :locals => {:order => @order} %>
+<%= render :partial => 'spree/shared/order_details', :locals => {:order => @order} %>
 <div class="clear"></div>
 <div class="font-41">&nbsp;</div>
 <button style="margin-left: 350px;" class="button_buy left" href="">
