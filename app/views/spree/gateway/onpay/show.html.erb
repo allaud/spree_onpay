@@ -2,7 +2,7 @@
 <h1 class="font-41 black"><%= t("onpay.pay")%></h1>
 <% end %>
 
-<%= form_tag @gateway.url, :method => "POST" do %>
+<%= form_tag @gateway.url, :method => "GET" do %>
 <%= hidden_field_tag(:"pay_for", @order.id)%>
 <%= hidden_field_tag(:"pay_mode", @pay_type)%>
 <%= hidden_field_tag(:"price", @price)%>

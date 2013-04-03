@@ -10,13 +10,13 @@
   <tr>
     <td><label><%=t("environment")%></label></td>
     <td>
-      <%= collection_select(:payment_method, :environment, Configuration.configurations.keys, :to_s, :titleize, {}, {:id => "gtwy-env"}) %>
+      <%= collection_select(:payment_method, :environment, Rails.configuration.database_configuration.keys.sort, :to_s, :titleize, {}, {:id => "gtwy-env"}) %>
     </td>
   </tr>
   <tr>
     <td><label><%=t("display")%></label></td>
     <td>
-      <%= select(:payment_method, :display_on, PaymentMethod::DISPLAY.collect {|display| [t(display), display == :both ? nil : display.to_s]}) %>
+      <%= select(:payment_method, :display_on, Spree::PaymentMethod::DISPLAY.collect {|display| [t(display), display == :both ? nil : display.to_s]}) %>
     </td>
   </tr>
   <tr>
@@ -55,7 +55,7 @@
 		<ul>
 			<li><b>Да:</b> Расчеты ведутся в тестовой валюте (TST). Может использоватся только для тестирования платежей.</li>
 			<li><b>Нет:</b> Расчеты ведутся в выбранной валюте.</li>
-		</ul>	
+		</ul>
 	</td></tr>
 	<tr>
 		<td>
@@ -67,7 +67,7 @@
 		<ul>
 			<li>Секретный ключ для вычисления контрольной подписи при отправке уведомлений о поступлении платежей в вашу систему и сверки с контрольной подписью, полученной при переходе пользователей по ссылкам\формам с вашего сайта.</li>
 		</ul>
-	</td><tr>	
+	</td><tr>
 	<tr>
 		<td>
 			<%= f.label("preferred_onpay_login", t("onpay_login")+": ") %>
@@ -89,7 +89,7 @@
 		<ul>
 			<li><b>Да:</b> Комиссию сервиса приема платежей взымать с продавца.</li>
 			<li><b>Нет:</b> Комиссию сервиса приема платежей взымать с покупателя.</li>
-		</ul>	
+		</ul>
 	</td><tr>
 	<tr>
 		<td>
@@ -124,10 +124,10 @@
 	<tr><td>
 		<ul>
 			<li><b>RUR (по умолчанию):</b> Основная валюта ценника.</li>
-		</ul>	
+		</ul>
 	</td></tr>
 	</table>
-    
+
     <% if @object.respond_to?(:preferences) %>
       <div id="gateway-settings-warning" style="color:#FF0000"><%= t('provider_settings_warning')%></div>
     <% end %>

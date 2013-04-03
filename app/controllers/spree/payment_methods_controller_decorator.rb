@@ -3,7 +3,7 @@ Spree::Admin::PaymentMethodsController.class_eval do
 	before_filter :check_onpay_edit
 
 	def edit
-		render :template => 'templates/payment_methods/edit.html.erb' if @@onpay_way
+		render :template => 'spree/templates/payment_methods/edit.html.erb' if @@onpay_way
 	end
 
 	private
